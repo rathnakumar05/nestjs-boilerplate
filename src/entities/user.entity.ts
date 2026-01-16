@@ -1,30 +1,53 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  Column,
+  Index,
+  BeforeInsert,
+} from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
+import { ITimestamps, ISoftDelete } from '../common/interfaces/commonEntities.interface';
 
 @Entity({
   name: 'users',
-  schema: 'users_schema',
+  schema: 'auth',
 })
-class User {
-  @PrimaryGeneratedColumn()
+class User implements ITimestamps, ISoftDelete {
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
+  @Index({ unique: true })
+  @Column({ type: 'uuid', unique: true })
+  publicId: string;
+
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
-  firstName90: string;
-
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column()
-  lastName1: string;
+  @Column({ unique: true })
+  email: string;
 
-  @Column()
-  lastName8: string;
+  @Column({ nullable: true })
+  password: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @BeforeInsert()
+  generatePublicId() {
+    this.publicId = uuidv4();
+  }
 }
 
 export default User;
