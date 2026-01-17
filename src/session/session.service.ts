@@ -24,6 +24,7 @@ export class SessionService {
     return await this.sessionsRepository.find({
       where: { publicId: publicId, isRevoked: false, expiresAt: MoreThan(new Date()) },
       select: ['id', 'ipAddress', 'userAgent', 'createdAt'],
+      order: { createdAt: 'DESC' },
     });
   }
 

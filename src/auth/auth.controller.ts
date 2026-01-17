@@ -120,6 +120,7 @@ export class AuthController {
     if (!oldRefreshToken) {
       throw new UnauthorizedException();
     }
+    response.clearCookie('refresh_token');
     const { accessToken, refreshToken, refreshTokenExpiresAt } = await this.authService.refresh(
       oldRefreshToken,
       ipAddress,
