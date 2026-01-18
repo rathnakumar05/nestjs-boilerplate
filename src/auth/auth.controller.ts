@@ -22,6 +22,7 @@ import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import AuthResponseDto from './dto/auth-response.dto';
 import type { IAuthRequest } from './interfaces/auth.interface';
+import errorCodes from 'src/common/constants/error-codes.const';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -72,7 +73,7 @@ export class AuthController {
           activeSessionExceedsLimit: {
             summary: 'Active session exceeds limit',
             value: {
-              errorCode: 'SESSION_LIMIT_EXCEEDS',
+              errorCode: errorCodes.SessionLimitExceeds,
               accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lI09',
             },
           },
